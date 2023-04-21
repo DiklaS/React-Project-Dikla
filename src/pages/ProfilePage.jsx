@@ -43,11 +43,6 @@ const ProfilePage = () => {
         } else {
           newInputState.imageAlt = "";
         }
-        if (data.imageAlt) {
-          newInputState.imageAlt = data.imageAlt;
-        } else {
-          newInputState.imageAlt = "";
-        }
         if (data.state) {
           newInputState.state = data.state;
         } else {
@@ -81,7 +76,7 @@ const ProfilePage = () => {
       if (joiResponse) {
         return;
       }
-      await axios.put("/users/userInfo", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, password: inputState.password, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode, biz: isBiz});
+      await axios.put("/users/userInfo", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode, biz: isBiz});
       navigate(ROUTES.LOGIN);
     } catch (err) {
       console.log("error from axios", err.response.data);
@@ -93,30 +88,32 @@ const ProfilePage = () => {
   };
 
   /* const handleResetBtnClick = () => {
-    const newInputState = initInputState;
+    let newInputState = "";
+    let newIsBiz = false;
     setInputState(newInputState)
+    setIsBiz(newIsBiz)
     setInputsErrorsState({})
-  };   */
+  };    */
 
-  /* const handleInputChange = (ev) => {
+  const handleInputChange = (ev) => {
     const{id, value} = ev.target
     setInputState(prev => (
       {...prev,
       [id]: value}
     ));
    
-  } */
+  } 
   const handleCheckChange = (event) => {
     setIsBiz(event.target.checked);
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     const joiResponse = validateRegisterSchema(inputState);
     setInputsErrorsState(joiResponse);
-    console.log(inputsErrorsState)
+    console.log(joiResponse)
   }, [inputState]);
- */
-  if (!inputState || !isBiz) {
+ 
+  if (!inputState) {
     return <CircularProgress />;
   }
 
@@ -141,7 +138,6 @@ const ProfilePage = () => {
               {id: 'lastName',label: 'Last Name',required: true, },
               {id: 'phone',label: 'Phone',required: true, },
               {id: 'email',label: 'Email',required: true, },
-              {id: 'password',label: 'Password',required: true},
               {id: 'imageUrl',label: 'Image url',required: false, },
               {id: 'imageAlt',label: 'Image alt',required: false, },
               {id: 'state',label: 'State',required: false, },
@@ -158,7 +154,7 @@ const ProfilePage = () => {
                   label={label}
                   fullWidth
                   value={inputState[id]}
-                  //onChange={handleInputChange}
+                  onChange={handleInputChange}
                   error={(inputState[id] && inputsErrorsState && inputsErrorsState[id]) ? true : false}
                   helperText={
                   inputsErrorsState &&
@@ -203,7 +199,7 @@ const ProfilePage = () => {
                 sx={{mb: 5}}
                 variant="contained" 
                 onClick={handleBtnClick}
-                disabled={!inputState.firstName || !inputState.lastName || !inputState.phone || !inputState.email || !inputState.password || !inputState.country || !inputState.city || !inputState.street || !inputState.houseNumber}
+                disabled={!inputState.firstName || !inputState.lastName || !inputState.phone || !inputState.email || !inputState.country || !inputState.city || !inputState.street || !inputState.houseNumber}
               >
                 SUBMIT
               </Button>
