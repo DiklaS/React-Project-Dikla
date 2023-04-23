@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 const DetailedCardPage = () => {
   const navigate = useNavigate();
-
   const { id } = useParams();
   const [detailedCardArr, setDetailedCardArr] = useState(null);
 

@@ -12,7 +12,8 @@ const ROUTES = {
   CARDLIKE: "/card-like/:id",
   TRY: "/try",
   SIGNUP: "/signup",
-  CREATECARD: "/createcard"
+  CREATECARD: "/createcard",
+  EDITCARD: "/edit/:id"
 
 };
 

@@ -15,7 +15,7 @@ import CreateCardPage from "../pages/CreateCardPage";
 import MyCardsPage from "../pages/MyCardsPage";
 import DetailedCardPage from "../pages/DetailedCardPage";
 import SignupPage from "../pages/SignupPage";
-import REGPage from "../pages/REGPage";
+
 //element={<ProtectedRoute element={<LogoutPage />} />}
 
 const Router = () => {
@@ -30,7 +30,7 @@ const Router = () => {
       <Route path={ROUTES.FAVORITES} element={<FavoritesPage />} />
       <Route path={ROUTES.DETAILEDCARD} element={<DetailedCardPage />} />
       <Route path={ROUTES.LOGOUT} element={<ProtectedRoute element={<LogoutPage />} />}/>
-      <Route path="/edit/:id" element={<SuperProtectedRoute isAdmin={true} isBiz={true} element={<EditCardPage />}/>}/>
+      <Route path={ROUTES.EDITCARD} element={<SuperProtectedRoute isAdmin={true} isBiz={true} element={<EditCardPage />}/>}/>
       <Route path={ROUTES.CARDLIKE} element={<ProtectedRoute element={<FavoritesPage />} />}/>
       <Route path={ROUTES.PROFILE} element={<ProtectedRoute element={<ProfilePage />} />}/>
       <Route path={ROUTES.CREATECARD} element={<SuperProtectedRoute isAdmin={false} isBiz={true} element={<CreateCardPage/>}/>}/>

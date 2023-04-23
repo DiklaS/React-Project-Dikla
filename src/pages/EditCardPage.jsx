@@ -21,31 +21,10 @@ import { toast } from "react-toastify";
 
 const EditCardPage = () => {
   const { id } = useParams();
-  /*
-    router: /edit/:id
-    url: /edit/magafaiim
-    params = {
-      id: "magafaiim"
-    }
-    const params = useParams()
-    const id = params.id
-  */
   const [inputState, setInputState] = useState(null);
-  // const [inputState, setInputState] = useState({
-  //   img: "",
-  //   title: "",
-  //   price: "",
-  //   description: "",
-  // });
   const [inputsErrorsState, setInputsErrorsState] = useState({});
   const navigate = useNavigate();
-  /*
-    const params = useParams();
-    params = {
-      id:1
-    }
-    const id = params.id
-  */
+  
   useEffect(() => {
     (async () => {
       try {

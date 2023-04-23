@@ -8,13 +8,12 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import Alert from "@mui/material/Alert";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
-import validateRegisterSchema from "../validation/registerValidation";
 import ROUTES from "../routes/ROUTES";
 import { CircularProgress } from "@mui/material";
+import validateProfileSchema from "../validation/profileValidation";
 
 const ProfilePage = () => {
   const [inputState, setInputState] = useState(null);
@@ -26,33 +25,18 @@ const ProfilePage = () => {
     axios
       .get("/users/userInfo")
       .then(({ data }) => {
-        console.log("profile data", data);
+        //console.log("profile data", data);
         let newInputState = {...data};
-        if (data.middleName) {
-          newInputState.middleName = data.middleName;
-        } else {
-          newInputState.middleName = "";
-        }
-        if (data.imageUrl) {
-          newInputState.imageUrl = data.imageUrl;
-        } else {
-          newInputState.imageUrl = "";
-        }
-        if (data.imageAlt) {
-          newInputState.imageAlt = data.imageAlt;
-        } else {
-          newInputState.imageAlt = "";
-        }
-        if (data.state) {
-          newInputState.state = data.state;
-        } else {
-          newInputState.state = "";
-        }
-        if (data.zipCode) {
-          newInputState.zipCode = data.zipCode;
-        } else {
-          newInputState.zipCode = "";
-        }
+        if (data.middleName) {newInputState.middleName = data.middleName;}
+        else {newInputState.middleName = "";}
+        if (data.imageUrl) {newInputState.imageUrl = data.imageUrl;}
+        else {newInputState.imageUrl = "";}
+        if (data.imageAlt) {newInputState.imageAlt = data.imageAlt;}
+        else {newInputState.imageAlt = "";}
+        if (data.state) {newInputState.state = data.state;}
+        else {newInputState.state = "";}
+        if (data.zipCode) {newInputState.zipCode = data.zipCode;}
+        else {newInputState.zipCode = "";}
         let newIsBiz = data.biz;
         delete newInputState.isAdmin;
         delete newInputState.createdAt;
@@ -70,14 +54,14 @@ const ProfilePage = () => {
   
   const handleBtnClick = async (ev) => {
     try {
-      const joiResponse = validateRegisterSchema(inputState);
+      const joiResponse = validateProfileSchema(inputState);
       setInputsErrorsState(joiResponse);
        
       if (joiResponse) {
         return;
       }
       await axios.put("/users/userInfo", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode, biz: isBiz});
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.HOME);
     } catch (err) {
       console.log("error from axios", err.response.data);
     }
@@ -87,13 +71,13 @@ const ProfilePage = () => {
     navigate(ROUTES.HOME);
   };
 
-  /* const handleResetBtnClick = () => {
-    let newInputState = "";
-    let newIsBiz = false;
-    setInputState(newInputState)
-    setIsBiz(newIsBiz)
+   const handleResetBtnClick = () => {
+    const initInputState ={firstName: "",middleName: "",lastName: "",phone: "",email: "",password: "",imageUrl: "",imageAlt: "",state: "",country: "",city: "",street: "",houseNumber: "",zipCode: ""
+  }
+    setInputState(initInputState)
+    setIsBiz(false)
     setInputsErrorsState({})
-  };    */
+  };    
 
   const handleInputChange = (ev) => {
     const{id, value} = ev.target
@@ -108,9 +92,9 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    const joiResponse = validateRegisterSchema(inputState);
+    const joiResponse = validateProfileSchema(inputState);
     setInputsErrorsState(joiResponse);
-    console.log(joiResponse)
+    //console.log(joiResponse)
   }, [inputState]);
  
   if (!inputState) {
@@ -165,7 +149,6 @@ const ProfilePage = () => {
                   ))
                   }   
                 />
-                
             </Grid>
             ))}
             <Grid item xs={12}>
@@ -188,7 +171,7 @@ const ProfilePage = () => {
               <Button 
                 fullWidth
                 variant="outlined"
-                //onClick={handleResetBtnClick} 
+                onClick={handleResetBtnClick} 
               >
                 <LoopOutlinedIcon/>
               </Button>
@@ -209,10 +192,7 @@ const ProfilePage = () => {
       </Box>
     </Container>
   );
-
 };
-
-
 
 export default ProfilePage;
   

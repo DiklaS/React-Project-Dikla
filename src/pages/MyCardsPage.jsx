@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
 
 
-const MyCardsPage = () => {
+const MyCardsPage = ({onDelete, id}) => {
   const [myCardsArr, setmyCardsArr] = useState(null);
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
@@ -30,6 +30,10 @@ const MyCardsPage = () => {
       });
   }, []);
   console.log(myCardsArr);
+
+  const handleDeleteCardBtnClick = (ev) => {
+    onDelete(id)
+  };
 
   const handleCreateCardBtnClick = (ev) => {
     navigate(ROUTES.CREATECARD);
@@ -58,7 +62,7 @@ const MyCardsPage = () => {
                   description={item.description}
                   phone={item.phone}
                   img={item.image ? item.image.url : ""}
-                  //onDelete={handleDeleteFromInitialCardsArr}
+                  onDelete={handleDeleteCardBtnClick}
                   //onEdit={handleEditFromInitialCardsArr}
                   canEdit={payload && (payload.biz || payload.isAdmin)}
                   city={item.city}
@@ -66,7 +70,7 @@ const MyCardsPage = () => {
                   state={item.state}
                   zipCode={item.zipCode}
                   bizNumber={item.bizNumber}
-                />
+                /> 
               </Grid>
               ))}
               <Fab color="primary" aria-label="add" size='large' sx={{

@@ -10,8 +10,8 @@ import { BorderHorizontal } from "@mui/icons-material";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
-
-
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../routes/ROUTES";
 
 const CardComponent = ({
   img,
@@ -31,6 +31,7 @@ const CardComponent = ({
   const isLoggedIn = useSelector((state) => state.authSlice.isLoggedIn);
   const isAdmin = useSelector((state) => state.authSlice.isAdmin);
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
+  const navigate = useNavigate();
   const [isFavorited, setIsFavorited] = useState(() => {
     if (payload && payload._id && likes && likes.length > 0) {
       return !!likes.find(id => id === payload._id);
@@ -43,9 +44,10 @@ const CardComponent = ({
     console.log("id", id);
     onDelete(id);
   };
-  const handleEditBtnClick = () => {
-    onEdit(id);
+  const handleEditBtnClick = (ev) => {
+    navigate(ROUTES.EDITCARD);
   };
+  
   
   const handleDetailedCardBtnClick = () => {
     onDetailedCard(id);
@@ -68,6 +70,8 @@ const CardComponent = ({
       console.log("error when adding favorite", err.response.data);
     }
   }; 
+
+  
  
   /* if (!likes) {
     return <CircularProgress />;
