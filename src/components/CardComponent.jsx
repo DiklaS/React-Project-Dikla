@@ -39,29 +39,23 @@ const CardComponent = ({
     return false;
     });
 
-  //const [isLiked, setIsLiked] = useState(() => !!)
   const handleDeleteBtnClick = () => {
     console.log("id", id);
     onDelete(id);
   };
-  const handleEditBtnClick = (ev) => {
-    navigate(ROUTES.EDITCARD);
+  const handleEditBtnClick = () => {
+    onEdit(id);
   };
-  
-  
+
   const handleDetailedCardBtnClick = () => {
     onDetailedCard(id);
-  };
-
-
+  }; 
 
   const handleFavoritedChange = async () => {
    setIsFavorited(isFavorited => !isFavorited); 
     try {
       
       await axios.patch("/cards/card-like/" + id); 
-      
-      
       if (isFavorited === true)
       toast.error("Card was removed from favorites");
       else

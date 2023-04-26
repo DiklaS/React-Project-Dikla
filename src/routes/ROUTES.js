@@ -13,7 +13,8 @@ const ROUTES = {
   TRY: "/try",
   SIGNUP: "/signup",
   CREATECARD: "/createcard",
-  EDITCARD: "/edit/:id"
+  EDITCARD: "/edit/:id",
+  BIZNUMBER: "/cards/bizNumber/:bizId"
 
 };
 

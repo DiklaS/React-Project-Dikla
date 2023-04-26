@@ -8,9 +8,10 @@ import CardComponent from "../components/CardComponent";
 import { useSelector } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
 
+
 const FavoritesPage = () => {
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
-
+  const navigate = useNavigate();
   const [favoritesArr, setFavoritesArr] = useState()
 
     useEffect(() => {
@@ -28,8 +29,26 @@ const FavoritesPage = () => {
         toast.error("Oops");
       });
     }, [favoritesArr]);
+
+  const handleDeleteFromInitialCardsArr = async (id) => {
+    try {
+      await axios.delete("/cards/" + id); // /cards/:id
+      setFavoritesArr((newCardsArr) =>
+        newCardsArr.filter((item) => item._id !== id)
+      );
+    } catch (err) {
+      console.log("error when deleting", err.response.data);
+    }
+  }; 
+
+  const handleEditFromInitialCardsArr = (id) => {
+    navigate(`/edit/${id}`); //localhost:3000/edit/123213
+  };
   
-   console.log(favoritesArr)
+  
+  if (!favoritesArr) {
+    return <CircularProgress />;
+  }  
     return (
         <Box>
             <Typography variant="h4" textAlign={"center"} my={2}>
@@ -55,8 +74,8 @@ const FavoritesPage = () => {
               state={item.state}
               zipCode={item.zipCode}
               likes={item.likes}
-              //onDelete={handleDeleteFromInitialCardsArr}
-              //onEdit={handleEditFromInitialCardsArr}
+              onDelete={handleDeleteFromInitialCardsArr}
+              onEdit={handleEditFromInitialCardsArr}
               //onDetailedCard={handleDetailedCardFromInitialCardsArr}
               canEdit={payload && (payload.biz || payload.isAdmin)}
              

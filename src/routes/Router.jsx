@@ -15,6 +15,7 @@ import CreateCardPage from "../pages/CreateCardPage";
 import MyCardsPage from "../pages/MyCardsPage";
 import DetailedCardPage from "../pages/DetailedCardPage";
 import SignupPage from "../pages/SignupPage";
+import UsersTablePage from "../pages/UsersTablePage";
 
 //element={<ProtectedRoute element={<LogoutPage />} />}
 
@@ -35,6 +36,7 @@ const Router = () => {
       <Route path={ROUTES.PROFILE} element={<ProtectedRoute element={<ProfilePage />} />}/>
       <Route path={ROUTES.CREATECARD} element={<SuperProtectedRoute isAdmin={false} isBiz={true} element={<CreateCardPage/>}/>}/>
       <Route path={ROUTES.MYCARDS} element={<SuperProtectedRoute isAdmin={true} isBiz={true} element={<MyCardsPage/>}/>}/>
+      <Route path="/userstable" element={<SuperProtectedRoute isAdmin={true} isBiz={true} element={<UsersTablePage/>}/>}/>
       <Route path="*" element={<h1>404</h1>} />
       <Route path={ROUTES.SIGNUP} element={<SignupPage/>}/>
       {/* //<Route path="/reg" element={<REGPage/>}/> */}
@@ -44,3 +46,6 @@ const Router = () => {
 };
 
 export default Router;
+
+
+//</Routes><Route path={ROUTES.BIZNUMBER} element={<SuperProtectedRoute isAdmin={true} isBiz={true} element={</>}/>}/></SuperProtectedRoute>

@@ -6,7 +6,7 @@ import CardComponent from "../components/CardComponent";
 import { toast } from "react-toastify";
 import useQueryParams from "../hooks/useQueryParams";
 import { useSelector } from "react-redux";
-import MyCardsPage from "./MyCardsPage";
+
 
 
 const HomePage = () => {
@@ -70,7 +70,7 @@ const HomePage = () => {
 
   const handleDetailedCardFromInitialCardsArr = (id) => {
     navigate(`/detailedcard/${id}`); 
-  };
+  }; 
 
   if (!cardsArr) {
     return <CircularProgress />;

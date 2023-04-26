@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
 
 
-const MyCardsPage = ({onDelete, id}) => {
+const MyCardsPage = () => {
   const [myCardsArr, setmyCardsArr] = useState(null);
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
@@ -29,10 +29,22 @@ const MyCardsPage = ({onDelete, id}) => {
         toast.error("Oops");
       });
   }, []);
-  console.log(myCardsArr);
+  
 
-  const handleDeleteCardBtnClick = (ev) => {
-    onDelete(id)
+
+  const handleDeleteCardBtnClick = async (id) => {
+    try {
+      await axios.delete("/cards/" + id); // /cards/:id
+      setmyCardsArr((newCardsArr) =>
+        newCardsArr.filter((item) => item._id !== id)
+      );
+    } catch (err) {
+      console.log("error when deleting", err.response.data);
+    }
+  };
+
+  const handleEditCardBtnClick = (id) => {
+    navigate(`/edit/${id}`); //localhost:3000/edit/123213
   };
 
   const handleCreateCardBtnClick = (ev) => {
@@ -44,7 +56,7 @@ const MyCardsPage = ({onDelete, id}) => {
   }
 
     return (
-        <Box>
+        <Box sx={{ position: 'relative' }}>
             <Typography variant="h4" textAlign={"center"} my={2}>
               My Cards Page
             </Typography>
@@ -52,7 +64,7 @@ const MyCardsPage = ({onDelete, id}) => {
               Here you can find all the business cards which created by you.
             </Typography>
             <Divider />
-            <Grid container spacing={2} my={2} sx={{ position: 'relative' }}>
+            <Grid container spacing={2} my={2} >
               {myCardsArr.map((item) => (
               <Grid item xs={12} md={4} key={item._id + Date.now()} >
                 <CardComponent
@@ -63,7 +75,7 @@ const MyCardsPage = ({onDelete, id}) => {
                   phone={item.phone}
                   img={item.image ? item.image.url : ""}
                   onDelete={handleDeleteCardBtnClick}
-                  //onEdit={handleEditFromInitialCardsArr}
+                  onEdit={handleEditCardBtnClick}
                   canEdit={payload && (payload.biz || payload.isAdmin)}
                   city={item.city}
                   street={item.street}
@@ -73,16 +85,14 @@ const MyCardsPage = ({onDelete, id}) => {
                 /> 
               </Grid>
               ))}
-              <Fab color="primary" aria-label="add" size='large' sx={{
-                position: 'absolute',
-                bottom: '0',
-                right: '0',
-                marginRight: '0'}}
-                onClick={handleCreateCardBtnClick}>
-                <AddIcon />
-              </Fab>
+              
             </Grid>
-            
+            <Box display="flex" justifyContent="flex-end" alignItems="flex-end" >
+              <Fab color="primary" aria-label="add" size='large' 
+                  onClick={handleCreateCardBtnClick}>
+                  <AddIcon />
+              </Fab>
+            </Box>
 
         </Box>
   ); 
@@ -90,3 +100,6 @@ const MyCardsPage = ({onDelete, id}) => {
 }
 
 export default MyCardsPage; 
+
+
+//sx={{ position: 'relative' }}
