@@ -1,4 +1,4 @@
-import { Box, Typography, Divider } from "@mui/material";
+import { Box, Typography, Divider, CircularProgress, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 //import { DataGrid } from '@mui/x-data-grid';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,52 +7,102 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper'; 
+import { useEffect, useState } from "react";
+import axios from "axios";
+//import CircularProgress from "@mui/material";
 
 const UsersTablePage = () => {
-    function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+    const [usersArr, setUsersArr] = useState(null);
+    const [bizStatus, setBizStatus] = useState(null);
+    function createData(_id, firstName, lastName, email, biz, isAdmin) {
+      return { _id, firstName, lastName, email, biz, isAdmin };
+    }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+  useEffect(() => {
+  axios
+    .get("users/getAllUsers")
+    .then(({ data }) => {
+      //console.log("data", data);
+      setUsersArr(data.users);
+    })
+    .catch((err) => {
+      console.log("err from axios", err);
+      //toast.error("Oops");
+    })
+  }, []);
+  
+
+    const handleDeleteFromInitialUsersArr = async (id) => {
+      try {
+        await axios.delete("/users/deleteUser/" + id); // /users/:id
+        setUsersArr((newUsersArr) =>
+          newUsersArr.filter((item) => item._id !== id)
+        );
+      } catch (err) {
+        console.log("error when deleting", err.response.data);
+      }
+    }; 
+
+    const handleStatusBtn = async (id) => {
+      try {
+        const newUser = usersArr.find(user => user._id === id);
+          if (!newUser) {
+            throw new Error("User not found");
+          }
+        const updatedUser = {
+        ...newUser,
+        biz: !newUser.biz,
+        };
+        const { _id, isAdmin, ...updatedUserData } = updatedUser;
+        console.log("id:", id);
+        await axios.put("/users/userInfo/" + id, updatedUserData); // /users/:id
+        setUsersArr(prevState => prevState.map(user => user._id === id ? updatedUser : user));
+      } catch (err) {
+        console.log("error when updating user", err);
+      }
+    }; 
+
+    if (!usersArr) {
+    return <CircularProgress />;
+  }
+
     return (
       <Box>
         <Typography variant="h4" textAlign={"center"} my={2}>
           Users Table Page
         </Typography>
         <Typography variant="h6" textAlign={"center"} my={2}>
-         tttttttttt
+         Here you can see all the users and their status.
         </Typography>
-        <Divider mb={3}/>
-        <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Divider/>
+        <TableContainer component={Paper} sx={{ my: 3 }} >
+      <Table sx={{ minWidth: 650, my: '3' }} aria-label="simple table" >
         <TableHead>
           <TableRow>
-            <TableCell>Dessert (100g serving)</TableCell>
-            <TableCell align="right">Calories</TableCell>
-            <TableCell align="right">Fat&nbsp;(g)</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+            <TableCell>Users id</TableCell>
+            
+            <TableCell align="left">First Name&nbsp;</TableCell>
+            <TableCell align="left">Last Name&nbsp;</TableCell>
+            <TableCell align="left">Email&nbsp;</TableCell>
+            <TableCell align="left">Business&nbsp;</TableCell>
+            <TableCell align="left">Admin&nbsp;</TableCell>
+            <TableCell align="left">Biz Status&nbsp;</TableCell>
+            <TableCell align="left">Delete User&nbsp;</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
+          {usersArr.map((user) => (
+            <TableRow key={user.email}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell component="th" scope="row">{user._id}</TableCell>
+              <TableCell align="left">{user.firstName}</TableCell>
+              <TableCell align="left">{user.lastName}</TableCell>
+              <TableCell align="left">{user.email}</TableCell>
+              <TableCell align="left">{user.biz ? "true" : "false"}</TableCell>
+              <TableCell align="left">{user.isAdmin ? "true" : "false"}</TableCell>
+              <TableCell align="left">{user.isAdmin ? "" : <button onClick={() => handleStatusBtn(user._id)}>change status</button>}</TableCell>
+              <TableCell align="left">{user.isAdmin ? "" : <button onClick={() => handleDeleteFromInitialUsersArr(user._id)}>Delete</button>}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -70,4 +120,4 @@ const rows = [
 
 }
 
-export default UsersTablePage;
+export default UsersTablePage; 

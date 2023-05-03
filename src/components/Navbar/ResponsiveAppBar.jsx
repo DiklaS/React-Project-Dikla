@@ -20,10 +20,12 @@ import { darkThemeActions } from "../../store/darkTheme";
 import SearchPartial from "./SearchPartial";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 
+
 const pages = [{label: 'Home', url: ROUTES.HOME}, {label: "About", url: ROUTES.ABOUT}];
 const nonLoginPages = [{label: "Signup", url: ROUTES.SIGNUP},{label: "Login", url: ROUTES.LOGIN}];
 const loginPages = [{label: 'Favorites Cards', url: ROUTES.FAVORITES}];
 const BusinessPages = [{label: 'My Cards', url: ROUTES.MYCARDS}];
+const AdminPages = [{label: 'Sandbox', url: ROUTES.SANDBOX}, {label: 'CRM', url: ROUTES.CRM}];
 const settings = [{label: 'Profile', url: ROUTES.PROFILE}, {label: 'Logout', url: ROUTES.LOGOUT}]
 
 function ResponsiveAppBar() {
@@ -31,6 +33,7 @@ function ResponsiveAppBar() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const isLoggedIn = useSelector((state) => state.authSlice.isLoggedIn);
   const isBiz = useSelector((bigState) => bigState.authSlice.isBiz);
+  const isAdmin = useSelector((bigState) => bigState.authSlice.isAdmin);
   const dispatch = useDispatch();
   const isDarkTheme = useSelector(
     (state) => state.darkThemeSlice.isDarkTheme
@@ -123,7 +126,10 @@ function ResponsiveAppBar() {
               ))}
               {(isLoggedIn && isBiz) && BusinessPages.map((page) => (
                 <NavLinkComponent key={page.url} {...page} />
-              ))} 
+              ))}
+              {(isLoggedIn && isAdmin) && AdminPages.map((page) => (
+                <NavLinkComponent key={page.url} {...page} />
+              ))}  
 
             </Menu>
           </Box>
@@ -156,7 +162,10 @@ function ResponsiveAppBar() {
             ))}
             {(isLoggedIn && isBiz) && BusinessPages.map((page) => (
               <NavLinkComponent key={page.url} {...page} />
-            ))} 
+            ))}
+            {(isLoggedIn && isAdmin) && AdminPages.map((page) => (
+              <NavLinkComponent key={page.url} {...page} />
+            ))}  
           </Box>
           {/* Right Side */}
           <SearchPartial />

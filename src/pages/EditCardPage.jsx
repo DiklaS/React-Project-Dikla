@@ -45,6 +45,7 @@ const EditCardPage = () => {
         delete newInputState.user_id;
         delete newInputState.bizNumber;
         delete newInputState.createdAt;
+        delete newInputState.address;
         delete newInputState.__v;
 
         setInputState(newInputState);

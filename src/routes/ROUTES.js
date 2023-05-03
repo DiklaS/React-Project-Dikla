@@ -14,7 +14,9 @@ const ROUTES = {
   SIGNUP: "/signup",
   CREATECARD: "/createcard",
   EDITCARD: "/edit/:id",
-  BIZNUMBER: "/cards/bizNumber/:bizId"
+  BIZNUMBER: "/cards/bizNumber/:bizId",
+  CRM: "/userstable",
+  SANDBOX: "/sandbox"
 
 };
 

@@ -14,21 +14,35 @@ const FavoritesPage = () => {
   const navigate = useNavigate();
   const [favoritesArr, setFavoritesArr] = useState()
 
-    useEffect(() => {
+/*     useEffect(() => {
     axios
       .get("/cards/cards")
       .then(({ data }) => {
-        console.log("data", data);
+        //console.log("data", data);
         const userFavorites = data.filter((card) => card.likes.includes(payload._id))
         setFavoritesArr(userFavorites);
-        console.log(userFavorites);
+        //console.log(userFavorites);
         
       })
       .catch((err) => {
         console.log("err from axios", err);
         toast.error("Oops");
       });
-    }, [favoritesArr]);
+    }, [favoritesArr]); */
+
+  useEffect(() => {
+    axios
+      .get("/cards/get-my-fav-cards")
+      .then(({ data }) => {
+        console.log("data", data);
+        setFavoritesArr(data);
+        
+      })
+      .catch((err) => {
+        console.log("err from axios", err);
+        toast.error("Oops");
+      });
+  }, []);
 
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {

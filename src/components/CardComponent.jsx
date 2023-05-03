@@ -55,6 +55,7 @@ const CardComponent = ({
    setIsFavorited(isFavorited => !isFavorited); 
     try {
       
+      
       await axios.patch("/cards/card-like/" + id); 
       if (isFavorited === true)
       toast.error("Card was removed from favorites");

@@ -81,6 +81,7 @@ const MyCardsPage = () => {
                   street={item.street}
                   state={item.state}
                   zipCode={item.zipCode}
+                  likes={item.likes}
                   bizNumber={item.bizNumber}
                 /> 
               </Grid>

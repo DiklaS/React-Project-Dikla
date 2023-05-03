@@ -14,7 +14,6 @@ const DetailedCardPage = () => {
   const [detailedCardArr, setDetailedCardArr] = useState(null);
   const isAdmin = useSelector((bigState) => bigState.authSlice.isAdmin);
   const [inputNumber, setInputNumber] = useState('');
-  const [inputsErrorsState, setInputsErrorsState] = useState({});
 
   useEffect(() => {
     axios
@@ -27,32 +26,24 @@ const DetailedCardPage = () => {
         console.log("err from axios", err);
         toast.error("Oops");
       });
-  }, []);
+  }, [detailedCardArr]);
 
   const handleCloseBtnClick = (ev) => {
     navigate(ROUTES.HOME);
   };
 
-  function handleInputChange(ev) {
+/*   function handleInputChange(ev) {
     setInputNumber(ev.target.value);
     console.log(inputNumber)
     
-  }
+  } */
 
   const handleChangeNumberBtn = async () => {
     try {
-      const joiResponse = validateBizNumberSchema({bizNumber: inputNumber});
-      setInputsErrorsState(joiResponse);
-      console.log(joiResponse)
-      if (joiResponse) {
-        return;
-      }
-      await axios.patch("/cards/bizNumber/" + id);
-      toast.success("yesh") 
-      //navigate(ROUTES.LOGIN);
-
+      await axios.patch("/cards/bizNumber/" + id, );
+      toast.success("Card Number was changed") 
     } catch (err) {
-      console.log("error when adding favorite", err.response.data);
+      console.log("error when changing card number", err);
     } 
   }; 
 
@@ -109,7 +100,7 @@ if (!detailedCardArr) {
               <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Card number:</Typography>
               <ListItemText primary={ detailedCardArr.bizNumber}  style={{ marginLeft: '10px' }} />
             </ListItem> 
-             {isAdmin && <ListItem divider>
+             {/* {isAdmin && <ListItem divider>
               <Box
                 component="form"
                 sx={{
@@ -131,7 +122,7 @@ if (!detailedCardArr) {
                   ))}
               />
               </Box>
-            </ListItem>} 
+            </ListItem>} */}
           </CardContent>
           <CardActions>
             
