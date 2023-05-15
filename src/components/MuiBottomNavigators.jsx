@@ -19,6 +19,7 @@ const MuiBottomNavigators = () => {
     (state) => state.authSlice.isBiz
     );
     return (
+      <>
         <BottomNavigation showLabels>
           {pages.map((page) => (
                 <BottomNavigationAction key={page.label} {...page} />
@@ -31,12 +32,11 @@ const MuiBottomNavigators = () => {
               ))}
 
         </BottomNavigation>
+        <div style={{ textAlign: 'center', marginTop: '10px' }}>
+          <span>&copy; {new Date().getFullYear()} created by Dikla Shaked</span>
+        </div>
+      </>
     )
 }
 
 export default MuiBottomNavigators;
-
-
-/*             <BottomNavigationAction label="About" icon={<InfoIcon/>}></BottomNavigationAction>
-            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon/>}></BottomNavigationAction>
-            <BottomNavigationAction label="My Cards" icon={<PortraitIcon/>}></BottomNavigationAction> */

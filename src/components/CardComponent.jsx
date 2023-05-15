@@ -25,6 +25,7 @@ const CardComponent = ({
   onLiked,
   onEdit,
   onDetailedCard,
+  updateFavoritesArr,
   canEdit, 
   city, state, zipCode, likes
 }) => {
@@ -58,10 +59,15 @@ const CardComponent = ({
       
       await axios.patch("/cards/card-like/" + id); 
       if (isFavorited === true)
-      toast.error("Card was removed from favorites");
-      else
-      toast.success("Card was added to favorites");
-    } catch (err) {
+      toast.info("Card was removed from favorites");
+      if (updateFavoritesArr) {
+      // Fetch the updated favorites data from the server
+      const response = await axios.get("/cards/get-my-fav-cards");
+      const updatedFavorites = response.data;
+      updateFavoritesArr(updatedFavorites);
+      } else
+      toast.info("Card was added to favorites");
+      } catch (err) {
       console.log("error when adding favorite", err.response.data);
     }
   }; 

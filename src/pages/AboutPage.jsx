@@ -5,6 +5,7 @@ import mycardsPageImg from './mycardsPageImg.png'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import SummarizeIcon from '@mui/icons-material/Summarize';
 
 const AboutPage = () => {
     return (
@@ -25,7 +26,7 @@ const AboutPage = () => {
                         <Typography variant="h6" gutterBottom >Home Page</Typography>
                     <Typography>On the home page you can find all the business cards we have on our site.</Typography>
                     <List>
-                        <ListItem># Clicking on the business card will bring you to a page with more details about the business.</ListItem>
+                        <ListItem><SummarizeIcon sx={{m:1}}/> Clicking on the business card will bring you to a page with more details about the business.</ListItem>
                         <ListItem><FavoriteIcon sx={{m:1}}/> Clicking on the favorite icon will mark this business card as a favorite.</ListItem>
                         <ListItem><EditIcon sx={{m:1}}/> Clicking on the edit icon will allow editing of the card, available only to business customers who created the card.</ListItem>
                         <ListItem><DeleteIcon sx={{m:1}}/> Clicking on the delete icon will allow deletion of the card, available only to admin and bussiness customers.</ListItem>

@@ -1,14 +1,14 @@
 import { Typography, Box, Grid, Divider, CircularProgress } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ROUTES from "../routes/ROUTES";
 import axios from "axios";
 import { toast } from "react-toastify";
 import CardComponent from "../components/CardComponent";
 import { useSelector } from "react-redux";
-import AddIcon from '@mui/icons-material/Add';
 import { filterData } from "../components/filterFunc";
 import useQueryParams from "../hooks/useQueryParams";
+import PropTypes from 'prop-types';
 
 const FavoritesPage = () => {
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
@@ -17,7 +17,7 @@ const FavoritesPage = () => {
   const [favoritesArr, setFavoritesArr] = useState();
   let qparams = useQueryParams();
 
-/*     useEffect(() => {
+  /*     useEffect(() => {
     axios
       .get("/cards/cards")
       .then(({ data }) => {
@@ -59,6 +59,10 @@ const FavoritesPage = () => {
   };
   }, [qparams.filter]);
 
+  const updateFavoritesArr = (updatedFavorites) => {
+    setFavoritesArr(updatedFavorites);
+  };
+
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
       await axios.delete("/cards/" + id); // /cards/:id
@@ -71,7 +75,7 @@ const FavoritesPage = () => {
   }; 
 
   const handleEditFromInitialCardsArr = (id) => {
-    navigate(`/edit/${id}`); //localhost:3000/edit/123213
+    navigate(`/edit/${id}`); 
   };
   
   const handleDetailedCardFromInitialCardsArr = (id) => {
@@ -91,42 +95,45 @@ const FavoritesPage = () => {
             </Typography>
             <Divider />
             <Grid container spacing={2} my={2}>
-        {favoritesArr && favoritesArr.length>0 ? (favoritesArr.map((item) => (
-          <Grid item xs={12} md={4} key={item._id + Date.now()}>
-            <CardComponent
-              id={item._id}
-              title={item.title}
-              subTitle={item.subTitle}
-              description={item.description}
-              phone={item.phone}
-              img={item.image ? item.image.url : ""}
-              city={item.city}
-              street={item.street}
-              bizNumber={item.bizNumber}
-              state={item.state}
-              zipCode={item.zipCode}
-              likes={item.likes}
-              userId={item.user_id}
-              onDelete={handleDeleteFromInitialCardsArr}
-              onEdit={handleEditFromInitialCardsArr}
-              onDetailedCard={handleDetailedCardFromInitialCardsArr}
-              canEdit={payload && (payload.biz || payload.isAdmin)}
-             
-            />
-          </Grid>)))
-          : <Typography variant="h6" gutterBottom>
-              You don't have Favorites
-           </Typography>
+            {favoritesArr && favoritesArr.length>0 ? (favoritesArr.map((item) => (
+              <Grid item xs={12} md={4} key={item._id + Date.now()}>
+                <CardComponent
+                  id={item._id}
+                  title={item.title}
+                  subTitle={item.subTitle}
+                  description={item.description}
+                  phone={item.phone}
+                  img={item.image ? item.image.url : ""}
+                  city={item.city}
+                  street={item.street}
+                  bizNumber={item.bizNumber}
+                  state={item.state}
+                  zipCode={item.zipCode}
+                  likes={item.likes}
+                  userId={item.user_id}
+                  onDelete={handleDeleteFromInitialCardsArr}
+                  onEdit={handleEditFromInitialCardsArr}
+                  onDetailedCard={handleDetailedCardFromInitialCardsArr}
+                  canEdit={payload && (payload.biz || payload.isAdmin)}
+                  updateFavoritesArr={updateFavoritesArr}
+                />
+              </Grid>)))
+              : <Typography variant="h6" gutterBottom>
+                You don't have Favorites
+              </Typography>
           
-        }
-      </Grid>
-              
-
-            
+            }
+            </Grid>
         </Box>
   );
-    
-    
 }
+
+FavoritesPage.propTypes = {
+    //CardComponent: PropTypes.elementType.isRequired,
+    originalfavoritesArr: PropTypes.array,
+    favoritesArr: PropTypes.array,
+    updateFavoritesArr: PropTypes.func,
+    qparams: PropTypes.object,
+  };
 
 export default FavoritesPage;

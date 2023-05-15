@@ -1,19 +1,18 @@
-import { Typography, Card, CardMedia, CardContent, CardActions, Button, Container, Divider, CircularProgress, ListItem, ListItemText, TextField, Box  } from "@mui/material";
+import { Typography, Card, CardMedia, CardContent, CardActions, Button, Container, Divider, CircularProgress, ListItem, ListItemText, } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
-import {validateEditCardParamsSchema} from "../validation/editValidation";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import validateBizNumberSchema from "../validation/bizNumberValidation";
+
 
 const DetailedCardPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [detailedCardArr, setDetailedCardArr] = useState(null);
   const isAdmin = useSelector((bigState) => bigState.authSlice.isAdmin);
-  const [inputNumber, setInputNumber] = useState('');
+  //const [inputNumber, setInputNumber] = useState('');
 
   useEffect(() => {
     axios

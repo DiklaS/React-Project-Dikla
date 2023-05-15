@@ -7,8 +7,7 @@ import LoopOutlinedIcon from '@mui/icons-material/LoopOutlined';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import validateEditSchema from "../validation/editValidation";
-
-
+import PropTypes from 'prop-types';
 
 const CreateCardPage = () => {
     const initInputState = {
@@ -148,6 +147,18 @@ const CreateCardPage = () => {
     </Container>
   );
 }
+
+TextField.propTypes = {
+  required: PropTypes.bool,
+  id: PropTypes.string,
+  label: PropTypes.string,
+  fullWidth: PropTypes.bool,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+  error: PropTypes.bool,
+  helperText: PropTypes.node,
+};
+
 export default CreateCardPage;
 
 
