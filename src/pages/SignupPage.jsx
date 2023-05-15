@@ -35,7 +35,24 @@ const SignupPage = () => {
       if (joiResponse) {
         return;
       }
-      await axios.post("/users/register", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, password: inputState.password, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode, biz: isBiz});
+      const requestData = {
+      firstName: inputState.firstName,
+      middleName: inputState.middleName,
+      lastName: inputState.lastName,
+      phone: inputState.phone,
+      email: inputState.email,
+      password: inputState.password,
+      imageUrl: inputState.imageUrl,
+      imageAlt: inputState.imageAlt,
+      state: inputState.state,
+      country: inputState.country,
+      city: inputState.city,
+      street: inputState.street,
+      houseNumber: inputState.houseNumber,
+      zipCode: inputState.zipCode === "" ? null : inputState.zipCode,
+      biz: isBiz,
+    };
+      await axios.post("/users/register", requestData);
       navigate(ROUTES.LOGIN);
     } catch (err) {
       console.log("error from axios", err.response.data);
@@ -81,7 +98,7 @@ const SignupPage = () => {
         }}
       >
         <Typography component="h1" variant="h5">
-          Register Page
+          Signup Page
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -107,6 +124,7 @@ const SignupPage = () => {
                   id={id}
                   label={label}
                   fullWidth
+                  type={id === 'password' ? 'password' : 'text'} 
                   value={inputState[id]}
                   onChange={handleInputChange}
                   error={(inputState[id] && inputsErrorsState && inputsErrorsState[id]) ? true : false}

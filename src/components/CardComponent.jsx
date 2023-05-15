@@ -20,7 +20,7 @@ const CardComponent = ({
   phone,
   street,
   bizNumber,
-  id,
+  id, userId,
   onDelete,
   onLiked,
   onEdit,
@@ -79,17 +79,17 @@ const CardComponent = ({
         <CardHeader title={title} subheader={subTitle}></CardHeader>
         <Divider variant="middle" />
         <CardContent>
-          <Typography>Phone: {phone}</Typography>
-          <Typography>Address: {street} {city} {state} {zipCode}</Typography>
-          <Typography>Card Number: {bizNumber}</Typography>
+          <Typography><strong>Phone: </strong>{phone}</Typography>
+          <Typography><strong>Address:</strong> {street} {city} {state} {zipCode}</Typography>
+          <Typography><strong>Card Number: </strong>{bizNumber}</Typography>
         </CardContent>
       </CardActionArea>
       <CardActions sx={{justifyContent:'space-between'}}>
         <Box>
-          {isAdmin && <IconButton aria-label="delete" onClick={handleDeleteBtnClick}>
+          {(isAdmin || (payload && (userId === payload._id))) && <IconButton aria-label="delete" onClick={handleDeleteBtnClick}>
           <DeleteIcon />
           </IconButton>}
-          {canEdit && <IconButton aria-label="edit" sx={{justifyContent: 'left'}} onClick={handleEditBtnClick}>
+          {canEdit && payload && (userId === payload._id) && <IconButton aria-label="edit" sx={{justifyContent: 'left'}} onClick={handleEditBtnClick}>
           <EditIcon />
           </IconButton>}
         </Box>

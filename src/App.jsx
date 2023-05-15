@@ -20,7 +20,10 @@ import useLoggedIn from "./hooks/useLoggedIn";
 
 const light = {
   palette: {
-    mode: "light",
+    
+      mode: "light",
+    
+    
   },
 };
 

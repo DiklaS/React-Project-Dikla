@@ -14,15 +14,16 @@ import Typography from "@mui/material/Typography";
 const NavLinkComponent = ({ url, label, ...rest }) => {
   return (
     // <NavLink to={url} onClick={onClick} className={className}>
-    <NavLink to={url} {...rest} style={{textDecoration:'none'}}>
+    <NavLink to={url} {...rest} style={{textDecoration:'none',  }}>
       {({ isActive }) => (
         <Typography
           sx={{
             my: 2,
             display: "block",
             p: 2,
+            fontWeight: 600
           }}
-          color={isActive ? "warning.main" : "text.primary"}
+          color={isActive ? "warning.light" : "text.primary"}
         >
           {label}
         </Typography>

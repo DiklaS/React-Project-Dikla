@@ -94,7 +94,7 @@ if (!detailedCardArr) {
             </ListItem>
             <ListItem divider>
               <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Created at: </Typography>
-              <ListItemText primary={detailedCardArr.createdAt} style={{ marginLeft: '10px' }}/>
+              <ListItemText primary={new Date(detailedCardArr.createdAt).toLocaleDateString("en-US")} style={{ marginLeft: '10px' }}/>
             </ListItem>
             <ListItem divider>
               <Typography variant="subtitle1" style={{ fontWeight: 'bold' }}>Card number:</Typography>

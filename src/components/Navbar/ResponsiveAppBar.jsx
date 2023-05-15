@@ -1,15 +1,9 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import {MenuItem, Box, Typography} from '@mui/material';
-import Toolbar from '@mui/material/Toolbar';
+import {MenuItem, Box, Typography, Menu, Toolbar, Container, Avatar, AppBar,} from '@mui/material';
+import { Link } from 'react-router-dom';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
-import AdbIcon from '@mui/icons-material/Adb';
 import { useSelector, useDispatch } from 'react-redux';
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "./NavLinkComponent";
@@ -19,6 +13,7 @@ import woman_avatar from './woman_avatar.png';
 import { darkThemeActions } from "../../store/darkTheme";
 import SearchPartial from "./SearchPartial";
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import HiveIcon from '@mui/icons-material/Hive';
 
 
 const pages = [{label: 'Home', url: ROUTES.HOME}, {label: "About", url: ROUTES.ABOUT}];
@@ -38,6 +33,7 @@ function ResponsiveAppBar() {
   const isDarkTheme = useSelector(
     (state) => state.darkThemeSlice.isDarkTheme
   );
+  
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -66,27 +62,27 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" >
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters sx={{color: 'white'}}>
           {/* xs Screen */}
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <HiveIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
-            component="a"
-            href="/"
+            component={Link}
+            to={ROUTES.HOME}
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color:'white',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            be busy
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -134,12 +130,12 @@ function ResponsiveAppBar() {
             </Menu>
           </Box>
           {/* md Screen */}
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <HiveIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href=""
+            component={Link}
+            to={ROUTES.HOME}
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -147,34 +143,34 @@ function ResponsiveAppBar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color:'white',
               textDecoration: 'none',
             }}
           >
-            LOGO
+            be busy
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' },  }}>
+           
             {pages.map((page) => (
-              <NavLinkComponent key={page.url} {...page} />
+              <NavLinkComponent key={page.url} {...page} style={{color: "aqua " }}/>
             ))}
             {isLoggedIn && loginPages.map((page) => (
-              <NavLinkComponent key={page.url} {...page} />
+              <NavLinkComponent key={page.url} {...page} sx={{ color: 'white !important' }}/>
             ))}
             {(isLoggedIn && isBiz) && BusinessPages.map((page) => (
               <NavLinkComponent key={page.url} {...page} />
             ))}
             {(isLoggedIn && isAdmin) && AdminPages.map((page) => (
               <NavLinkComponent key={page.url} {...page} />
-            ))}  
+            ))}
+          
           </Box>
           {/* Right Side */}
           <SearchPartial />
-          <IconButton aria-label="dark-theme" checked={isDarkTheme} onClick={setToDarkTheme}>
-              {isDarkTheme ? <Typography display='none'></Typography> : <DarkModeIcon/>}
-            </IconButton>
-            <IconButton aria-label="light-theme" checked={isDarkTheme} onClick={setToLightTheme}>
-              {isDarkTheme ? <LightModeIcon/> : <Typography display='none'></Typography>}
-            </IconButton> 
+          {isDarkTheme ? <IconButton aria-label="light-theme" checked={isDarkTheme} onClick={setToLightTheme}><LightModeIcon/>
+            </IconButton> : <IconButton aria-label="dark-theme" checked={isDarkTheme} onClick={setToDarkTheme}>
+              <DarkModeIcon/>
+            </IconButton>}
           {isLoggedIn ? <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -204,11 +200,12 @@ function ResponsiveAppBar() {
                     key={page.url}
                     {...page}
                     onClick={logoutClick}
+                    
                   />
                 </MenuItem> 
               ) : (
                 <MenuItem key={page.url} onClick={handleCloseUserMenu}>
-                  <NavLinkComponent key={page.url} {...page}/>
+                  <NavLinkComponent key={page.url} {...page} />
                 </MenuItem>
               )
             ))}
@@ -222,8 +219,6 @@ function ResponsiveAppBar() {
               />
             ))}
           </Box>}
-
-          
         </Toolbar>
       </Container>
     </AppBar>

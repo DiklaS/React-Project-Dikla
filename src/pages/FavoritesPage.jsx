@@ -7,12 +7,15 @@ import { toast } from "react-toastify";
 import CardComponent from "../components/CardComponent";
 import { useSelector } from "react-redux";
 import AddIcon from '@mui/icons-material/Add';
-
+import { filterData } from "../components/filterFunc";
+import useQueryParams from "../hooks/useQueryParams";
 
 const FavoritesPage = () => {
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
-  const [favoritesArr, setFavoritesArr] = useState()
+  const [originalfavoritesArr, setOriginalfavoritesArr] = useState(null);
+  const [favoritesArr, setFavoritesArr] = useState();
+  let qparams = useQueryParams();
 
 /*     useEffect(() => {
     axios
@@ -35,14 +38,26 @@ const FavoritesPage = () => {
       .get("/cards/get-my-fav-cards")
       .then(({ data }) => {
         console.log("data", data);
-        setFavoritesArr(data);
-        
+        //setFavoritesArr(data);
+        filterFunc(data);
       })
       .catch((err) => {
         console.log("err from axios", err);
         toast.error("Oops");
       });
-  }, []);
+    const filterFunc = (data) => {
+    let filter = "";
+    if (qparams.filter) {
+      filter = qparams.filter.toLowerCase();;
+    }
+      const newOriginalCardsArr = JSON.parse(
+        JSON.stringify(originalfavoritesArr || data)
+      );
+      const filteredData = filterData(newOriginalCardsArr, filter);
+      setOriginalfavoritesArr(newOriginalCardsArr);
+      setFavoritesArr(filteredData);
+  };
+  }, [qparams.filter]);
 
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
@@ -59,7 +74,10 @@ const FavoritesPage = () => {
     navigate(`/edit/${id}`); //localhost:3000/edit/123213
   };
   
-  
+  const handleDetailedCardFromInitialCardsArr = (id) => {
+    navigate(`/detailedcard/${id}`); 
+  }; 
+
   if (!favoritesArr) {
     return <CircularProgress />;
   }  
@@ -88,9 +106,10 @@ const FavoritesPage = () => {
               state={item.state}
               zipCode={item.zipCode}
               likes={item.likes}
+              userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               onEdit={handleEditFromInitialCardsArr}
-              //onDetailedCard={handleDetailedCardFromInitialCardsArr}
+              onDetailedCard={handleDetailedCardFromInitialCardsArr}
               canEdit={payload && (payload.biz || payload.isAdmin)}
              
             />

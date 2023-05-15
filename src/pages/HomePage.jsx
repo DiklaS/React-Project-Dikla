@@ -6,6 +6,7 @@ import CardComponent from "../components/CardComponent";
 import { toast } from "react-toastify";
 import useQueryParams from "../hooks/useQueryParams";
 import { useSelector } from "react-redux";
+import { filterData } from "../components/filterFunc";
 
 
 
@@ -27,29 +28,39 @@ const HomePage = () => {
       console.log("err from axios", err);
       toast.error("Oops");
     });
+  
+    /* const filterFunc = (data) => {
+    let filter = "";
+    if (qparams.filter) {
+      filter = qparams.filter.toLowerCase();;
+    }
+    if (originalCardsArr) {
+      
+      let newOriginalCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
+      setCardsArr(
+        newOriginalCardsArr.filter((card) => card.title.toLowerCase().startsWith(filter) || card.bizNumber.toLowerCase().startsWith(filter))
+      );
+    } else if (data) {
+      
+      setOriginalCardsArr(data);
+      setCardsArr(data.filter((card) => card.title.toLowerCase().startsWith(filter) || card.bizNumber.toLowerCase().startsWith(filter)));
+    }
+  }; 
+  
+  }, [qparams.filter]);*/
 
   const filterFunc = (data) => {
     let filter = "";
     if (qparams.filter) {
-      filter = qparams.filter;
+      filter = qparams.filter.toLowerCase();;
     }
-    if (originalCardsArr) {
-      /*
-        when all loaded and states loaded
-      */
-      let newOriginalCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
-      setCardsArr(
-        newOriginalCardsArr.filter((card) => card.title.startsWith(filter) || card.bizNumber.startsWith(filter))
+      const newOriginalCardsArr = JSON.parse(
+        JSON.stringify(originalCardsArr || data)
       );
-    } else if (data) {
-      /*
-        when component loaded and states not loaded
-      */
-      setOriginalCardsArr(data);
-      setCardsArr(data.filter((card) => card.title.startsWith(filter) || card.bizNumber.startsWith(filter)));
-    }
-  };
-  
+      const filteredData = filterData(newOriginalCardsArr, filter);
+      setOriginalCardsArr(newOriginalCardsArr);
+      setCardsArr(filteredData);
+    };
   }, [qparams.filter]);
   
   
@@ -74,7 +85,7 @@ const HomePage = () => {
 
   if (!cardsArr) {
     return <CircularProgress />;
-  }
+  } 
 
   return (
     <Box>
@@ -101,6 +112,7 @@ const HomePage = () => {
               state={item.state}
               zipCode={item.zipCode}
               likes={item.likes}
+              userId={item.user_id}
               onDelete={handleDeleteFromInitialCardsArr}
               onEdit={handleEditFromInitialCardsArr}
               onDetailedCard={handleDetailedCardFromInitialCardsArr}

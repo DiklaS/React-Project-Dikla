@@ -8,12 +8,15 @@ import useQueryParams from "../hooks/useQueryParams";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
+import { filterData } from "../components/filterFunc";
 
 
 const MyCardsPage = () => {
+  const [originalmyCardsArr, setOriginalMyCardsArr] = useState(null)
   const [myCardsArr, setmyCardsArr] = useState(null);
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
+  let qparams = useQueryParams();
   
 
  useEffect(() => {
@@ -21,14 +24,26 @@ const MyCardsPage = () => {
       .get("/cards/my-cards")
       .then(({ data }) => {
         console.log("data", data);
-        setmyCardsArr(data);
-        
+        //setmyCardsArr(data);
+        filterFunc(data);
       })
       .catch((err) => {
         console.log("err from axios", err);
         toast.error("Oops");
       });
-  }, []);
+    const filterFunc = (data) => {
+    let filter = "";
+    if (qparams.filter) {
+      filter = qparams.filter.toLowerCase();;
+    }
+      const newOriginalMyCardsArr = JSON.parse(
+        JSON.stringify(originalmyCardsArr || data)
+      );
+      const filteredData = filterData(newOriginalMyCardsArr, filter);
+      setOriginalMyCardsArr(newOriginalMyCardsArr);
+      setmyCardsArr(filteredData);
+  };
+  }, [qparams.filter]);
   
 
 
@@ -50,6 +65,10 @@ const MyCardsPage = () => {
   const handleCreateCardBtnClick = (ev) => {
     navigate(ROUTES.CREATECARD);
   };
+
+  const handleDetailedCardFromInitialCardsArr = (id) => {
+    navigate(`/detailedcard/${id}`); 
+  }; 
 
   if (!myCardsArr) {
     return <CircularProgress />;
@@ -77,11 +96,13 @@ const MyCardsPage = () => {
                   onDelete={handleDeleteCardBtnClick}
                   onEdit={handleEditCardBtnClick}
                   canEdit={payload && (payload.biz || payload.isAdmin)}
+                  onDetailedCard={handleDetailedCardFromInitialCardsArr}
                   city={item.city}
                   street={item.street}
                   state={item.state}
                   zipCode={item.zipCode}
                   likes={item.likes}
+                  userId={item.user_id}
                   bizNumber={item.bizNumber}
                 /> 
               </Grid>

@@ -14,6 +14,7 @@ import LoopOutlinedIcon from '@mui/icons-material/LoopOutlined';
 import ROUTES from "../routes/ROUTES";
 import validateLoginSchema from "../validation/loginValidation";
 import useLoggedIn from "../hooks/useLoggedIn";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [inputState, setInputState] = useState({
@@ -31,6 +32,15 @@ const LoginPage = () => {
       if (joiResponse) {
         return;
       }
+
+      const failingsNumber = +localStorage.getItem("failingsNumber") || 0;
+      const userBlockedTime = +localStorage.getItem("userBlockedTime") || 0;
+
+      if (failingsNumber >= 3 && Date.now() - userBlockedTime < 24 * 60 * 60 * 1000) {
+        toast.error("You are blocked from logging in. Please try again later.");
+      return;
+      }
+      
       const { data } = await axios.post("/users/login", inputState);
       localStorage.setItem("token", data.token);
       loggedIn();
@@ -38,8 +48,28 @@ const LoginPage = () => {
       navigate(ROUTES.HOME);
     } catch (err) {
       console.log("login error", err);
+      toast.info(err.response.data);
+
+      const failingsNumber = +localStorage.getItem("failingsNumber") || 0;
+      localStorage.setItem("failingsNumber", failingsNumber + 1);
+
+      if (failingsNumber + 1 === 3) {
+        localStorage.setItem("userBlockedTime", Date.now());
+      }
     }
   };
+
+  const handleCancelBtnClick = () => {
+    navigate(ROUTES.HOME);
+  };
+
+  const handleResetBtnClick = () => {
+    const newInputState = {email: "", password: "",
+  };
+    setInputState(newInputState)
+    setInputsErrorsState({})
+  };
+
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
@@ -70,14 +100,11 @@ const LoginPage = () => {
                 autoComplete="email"
                 value={inputState.email}
                 onChange={handleInputChange}
-              />
-              {inputsErrorsState && inputsErrorsState.email && (
-                <Alert severity="warning">
-                  {inputsErrorsState.email.map((item) => (
-                    <div key={"email-errors" + item}>{item}</div>
+                error= {(inputsErrorsState && inputsErrorsState.email) ? true : false}
+                helperText={inputsErrorsState && inputsErrorsState.email && inputsErrorsState.email.map((item) => (
+                    <span key={"errors" + item}>{item}</span>
                   ))}
-                </Alert>
-              )}
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -90,21 +117,18 @@ const LoginPage = () => {
                 autoComplete="new-password"
                 value={inputState.password}
                 onChange={handleInputChange}
-              />
-              {inputsErrorsState && inputsErrorsState.password && (
-                <Alert severity="warning">
-                  {inputsErrorsState.password.map((item) => (
-                    <div key={"password-errors" + item}>{item}</div>
+                error= {(inputsErrorsState && inputsErrorsState.password) ? true : false}
+                helperText={inputsErrorsState && inputsErrorsState.password && inputsErrorsState.password.map((item) => (
+                    <span key={"errors" + item}>{item}</span>
                   ))}
-                </Alert>
-              )}
+              />
             </Grid>
             <Grid item xs={12} md={6}>
               <Button
               fullWidth
               variant="outlined"
               color="error"
-              onClick={handleBtnClick}
+              onClick={handleCancelBtnClick}
               >
               CANCEL
               </Button>
@@ -113,7 +137,7 @@ const LoginPage = () => {
               <Button 
                 fullWidth
                 variant="outlined"
-                onClick={handleBtnClick}
+                onClick={handleResetBtnClick}
               >
                 <LoopOutlinedIcon/>
               </Button>
