@@ -6,12 +6,11 @@ Access my site at https://github.com/DiklaS/React-Project-Dikla.git
 
 ### Table of Content:
 
-About The App
-Technologies
-Setup
-Status
-Credits
-License
+About The App\
+Technologies\
+Setup\
+Status\
+Credits\
 
 ### About The App
 
@@ -19,7 +18,7 @@ be busy is an app that presents business cards of different businesses from diff
 
 ### Technologies
 
-I used html, css, React, Redux, Joi
+I used html, css, React, Redux, Joi, Material UI, Axios
 
 ### Setup
 
@@ -34,5 +33,4 @@ The application in the project submission version.
 
 List of contriubutors:
 
-Dikla Shaked
-Beginner Web programmer.
+Dikla Shaked, Web developer
