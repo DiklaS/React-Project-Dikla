@@ -1,0 +1,77 @@
+[
+{
+  "firstName": "Yahav",
+  "lastName": "Shaked",
+  "phone": "050123456",
+  "email": "y@y.com",
+  "password": "$2a$10$XEV3tCkVQI072qYlIOT.0etG/.XVRAtCb4RA.X5ZZRCSZawvfy0HS",
+  "country": "aa",
+  "city": "bb",
+  "street": "cc",
+  "houseNumber": "199",
+  "biz": false,
+  "isAdmin": false,
+  "createdAt": {
+    "$date": "2023-04-13T13:41:49.937Z"
+  },
+  "__v": 0
+},
+
+{
+  "firstName": "Rotem",
+  "lastName": "Shaked",
+  "phone": "050123456",
+  "email": "r@r.com",
+  "password": "$2a$10$/BnWtbCaQS/b4/whUblm.eH.UkUwjEdGxX9/DPE6WTRny6zmzvzxW",
+  "country": "aa",
+  "city": "bb",
+  "street": "cc",
+  "houseNumber": "199",
+  "biz": true,
+  "isAdmin": false,
+  "createdAt": {
+    "$date": "2023-04-13T13:42:30.795Z"
+  },
+  "__v": 0
+},
+{
+  "firstName": "Dikla nn",
+  "lastName": "Shaked",
+  "phone": "050123456",
+  "email": "d@d.com",
+  "password": "$2a$10$Y5coVdwMcDb2RL0d5TGIPOiVuofb/DsPlHGo8NCQtk/vXGx9mWxFe",
+  "country": "aa",
+  "city": "bb",
+  "street": "cc",
+  "houseNumber": "199",
+  "biz": true,
+  "isAdmin": true,
+  "createdAt": {
+    "$date": "2023-04-13T13:42:53.801Z"
+  },
+  "__v": 0,
+  "imageAlt": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  "imageUrl": "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+  "middleName": "",
+  "state": "",
+  "zipCode": null
+},
+
+{
+  "firstName": "Niv",
+  "lastName": "Shaked",
+  "phone": "050123456",
+  "email": "n@n.com",
+  "password": "$2a$10$74MK.S8PbXaG6Un.wrEAret8XRHgZBl5Vp.u52vA7.5lNLUxJJBrW",
+  "country": "aa",
+  "city": "bb",
+  "street": "cc",
+  "houseNumber": "199",
+  "biz": false,
+  "isAdmin": true,
+  "createdAt": {
+    "$date": "2023-04-13T19:35:07.441Z"
+  },
+  "__v": 0
+}
+]
