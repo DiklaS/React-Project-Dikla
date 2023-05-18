@@ -6,7 +6,7 @@ const registerSchema = Joi.object({
     firstName: Joi.string().min(2).max(255).label('First name').required(),
     middleName: Joi.string().min(2).max(255).label('Middle name').allow(""),
     lastName: Joi.string().min(2).max(255).label('Last name').required(),
-    phone: Joi.string().min(7).max(14).label('Phone').required(),
+    phone: Joi.string().min(9).max(14).label('Phone').required(),
     email: Joi.string().email({ tlds: { allow: false } }).required(),
     //password: Joi.string().min(6).max(20).pattern(new RegExp('^[a-zA-Z0-9]{6,20}$')).required(),
     password: Joi.string()

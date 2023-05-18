@@ -16,8 +16,8 @@ import axios from "axios";
 
 import validateRegisterSchema from "../validation/registerValidation";
 import ROUTES from "../routes/ROUTES";
-import SignupInputComponent from "../components/SignupInputComponent";
-import { required } from "joi";
+
+
 
 const SignupPage = () => {
   const initInputState ={firstName: "",middleName: "",lastName: "",phone: "",email: "",password: "",imageUrl: "",imageAlt: "",state: "",country: "",city: "",street: "",houseNumber: "",zipCode: ""

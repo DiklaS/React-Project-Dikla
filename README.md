@@ -10,7 +10,7 @@ About The App\
 Technologies\
 Setup\
 Status\
-Credits\
+Credits
 
 ### About The App
 

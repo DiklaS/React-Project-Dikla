@@ -1,17 +1,14 @@
-import {Card, CardActionArea, CardMedia, CardHeader,CardContent, Typography, CardActions, Button, IconButton, Divider, Box, CircularProgress } from "@mui/material";
+import {Card, CardActionArea, CardMedia, CardHeader,CardContent, Typography, CardActions, IconButton, Divider, Box } from "@mui/material";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
 import DeleteIcon from '@mui/icons-material/Delete';
 import PhoneIcon from '@mui/icons-material/Phone';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EditIcon from '@mui/icons-material/Edit';
 import { useSelector } from 'react-redux';
-import { BorderHorizontal } from "@mui/icons-material";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import ROUTES from "../routes/ROUTES";
 
 const CardComponent = ({
   img,
@@ -115,7 +112,7 @@ const CardComponent = ({
 
 CardComponent.propTypes = {
   id: PropTypes.string,
-  bizNumber: PropTypes.string,
+  
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,

@@ -60,7 +60,7 @@ const ProfilePage = () => {
       if (joiResponse) {
         return;
       }
-      await axios.put("/users/userInfo", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode, biz: isBiz});
+      await axios.put("/users/userInfo", {firstName: inputState.firstName, middleName: inputState.middleName, lastName: inputState.lastName, phone: inputState.phone, email: inputState.email, imageUrl: inputState.imageUrl, imageAlt: inputState.imageAlt, state: inputState.state, country: inputState.country, city: inputState.city, street: inputState.street, houseNumber: inputState.houseNumber, zipCode: inputState.zipCode === "" ? null : inputState.zipCode, biz: isBiz});
       navigate(ROUTES.HOME);
     } catch (err) {
       console.log("error from axios", err.response.data);

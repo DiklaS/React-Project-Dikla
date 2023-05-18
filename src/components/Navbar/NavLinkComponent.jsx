@@ -1,15 +1,7 @@
 import { NavLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 
-
-/* <NavLinkComponent url="http://......" label="something" onClick={handleOnClick} className="red-back-ground" />
-   url, label, onClick, className
-
-  rest = {
-    onCLick,
-    className
-  }
-*/
 
 const NavLinkComponent = ({ url, label, ...rest }) => {
   return (
@@ -31,5 +23,10 @@ const NavLinkComponent = ({ url, label, ...rest }) => {
     </NavLink>
   );
 };
+
+NavLinkComponent.propTypes = {
+  url: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+}; 
 
 export default NavLinkComponent;

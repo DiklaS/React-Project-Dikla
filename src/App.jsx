@@ -21,7 +21,7 @@ import useLoggedIn from "./hooks/useLoggedIn";
 const light = {
   palette: {
     primary: {
-      main: '#25a7d8'
+      main: '#1dd397'
     },
       mode: "light",
     

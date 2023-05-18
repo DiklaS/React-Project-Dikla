@@ -60,7 +60,7 @@ const UsersTablePage = () => {
       } catch (err) {
         console.log("error when updating user", err);
       }
-    }; 
+    };
 
     if (!usersArr) {
     return <CircularProgress />;
